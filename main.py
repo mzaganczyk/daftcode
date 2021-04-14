@@ -36,6 +36,7 @@ async def check_login(password: str = '', password_hash: str = ''):
         return Response(status_code=HTTP_204_NO_CONTENT)
     else:
         return Response(status_code=HTTP_401_UNAUTHORIZED)
+        
 @app.post("/register", status_code=201)
 async def new_user(user: NewUser):
     app.users.append(RegisteredUser(name=user.name, surname=user.surname))
