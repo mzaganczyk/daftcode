@@ -41,7 +41,7 @@ async def new_user(user: NewUser):
     app.users.append(RegisteredUser(name=user.name, surname=user.surname))
     app.users[-1].id = app.users.index(app.users[-1]) + 1
     today = datetime.date.today()
-    length = len(app.users[-1].name) + len(app.users[-1].surname)
+    length = sum(c.isalpha() for c in app.users[-1].name) + sum(c.isalpha() for c in app.users[-1].surname)
     app.users[-1].register_date = today.strftime("%Y-%m-%d")
     app.users[-1].vaccination_date = (today + datetime.timedelta(days = length)).strftime("%Y-%m-%d")
     return app.users[-1]
