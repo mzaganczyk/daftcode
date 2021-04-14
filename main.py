@@ -53,7 +53,7 @@ async def view_patient(id: int):
         return app.users[id-1]
     except IndexError:
         return Response(status_code=HTTP_404_NOT_FOUND)
-        
+
 @app.get("/method")
 def check_method():
     return {"method": "GET"}
