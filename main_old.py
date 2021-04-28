@@ -18,8 +18,8 @@ class RegisteredUser(BaseModel):
     vaccination_date: Optional[str]
 
 
-# app = FastAPI()
-# app.users = []
+app = FastAPI()
+app.users = []
 
 
 @app.get("/")
