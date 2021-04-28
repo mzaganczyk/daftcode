@@ -75,3 +75,10 @@ def check_method():
 @app.delete("/method")
 def check_method():
     return {"method": "DELETE"}
+
+@app.get("/hello")
+def root(request: Request):
+    return templates.TemplateResponse("index.html.j2",
+    {
+        "request": request, "date": datetime.today().strftime("%Y-%m-%d")
+    })

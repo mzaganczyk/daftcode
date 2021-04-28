@@ -6,7 +6,7 @@ from datetime import datetime
 app = FastAPI()
 templates = Jinja2Templates(directory='templates')
 
-@app.get("/")
+@app.get("/hello")
 def root(request: Request):
     return templates.TemplateResponse("index.html.j2",
     {
