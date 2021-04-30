@@ -1,6 +1,6 @@
-from fastapi import Cookie, FastAPI, Response, HTTPException, responses
+from fastapi import Cookie, FastAPI, Response, HTTPException
 from fastapi.templating import Jinja2Templates
-from fastapi.security import HTTPBasic, HTTPBasicCredentials
+from fastapi.security import HTTPBasic
 from starlette.requests import Request
 from datetime import datetime
 from starlette.status import HTTP_401_UNAUTHORIZED, HTTP_201_CREATED
@@ -37,6 +37,6 @@ def login(response: Response, user: str = '', password: str = ''):
 @app.post("/login_token")
 def token(*, response: Response, session_token: str = Cookie(None)):
     if session_token not in app.tokens:
-        raise HTTPException(status_code=401)
+        raise HTTPException(status_code=409)
     else:
         return {"token": session_token}
