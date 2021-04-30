@@ -1,5 +1,6 @@
 import secrets
 from fastapi import Depends, FastAPI
+from fastapi import responses
 from fastapi.security import HTTPBasic, HTTPBasicCredentials
 from fastapi import Cookie
 from fastapi import HTTPException
@@ -9,6 +10,7 @@ from fastapi.responses import HTMLResponse, JSONResponse, PlainTextResponse
 import hashlib
 
 from pydantic.networks import HttpUrl
+from starlette.responses import RedirectResponse
 
 security = HTTPBasic()
 
@@ -62,3 +64,31 @@ def welcome_token(token: str, format: str = 'plain'):
             return JSONResponse(content={"message": "Welcome!"})
         elif format == 'html':
             return HTMLResponse(content='<h1>Welcome!</h1>')
+
+@app.delete("/logout_session")
+def logout_session(response: Response, session_token: str = Cookie(None)):
+    if session_token != app.login_session:
+        raise HTTPException(status_code=401)
+    else:
+        app.login_session = ''
+        response.set_cookie(key="session_token", value='', expires=1)
+        return RedirectResponse('/logged_out', status_code=302)
+
+@app.delete("/logout_token")
+def logout_token(token: str, response: Response):
+    if token != app.login_token:
+        raise HTTPException(status_code=401)
+    else:
+        app.login_token = ''
+        response.set_cookie(key="session_token", value='', expires=1)
+        return RedirectResponse('/logged_out', status_code=302)
+
+
+@app.get("/logged_out", status_code=200)
+def logged_out():
+    if format == 'plain' or format == '':
+        return PlainTextResponse(content='Logged out!')
+    elif format == 'json':
+        return JSONResponse(content={"message": "Logged out!"})
+    elif format == 'html':
+        return HTMLResponse(content='<h1>Logged out!</h1>')
