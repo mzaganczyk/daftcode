@@ -66,21 +66,19 @@ def welcome_token(token: str, format: str = 'plain'):
             return HTMLResponse(content='<h1>Welcome!</h1>')
 
 @app.delete("/logout_session")
-def logout_session(response: Response, format: str = 'plain', session_token: str = Cookie(None)):
+def logout_session(format: str = 'plain', session_token: str = Cookie(None)):
     if session_token != app.login_session:
         raise HTTPException(status_code=401)
     else:
         app.login_session = ''
-        response.set_cookie(key="session_token", value='', expires=1)
         return RedirectResponse(url=f'/logged_out?format={format}', status_code=302)
 
 @app.delete("/logout_token")
-def logout_token(token: str, response: Response, format: str = 'plain'):
+def logout_token(token: str, format: str = 'plain'):
     if token != app.login_token:
         raise HTTPException(status_code=401)
     else:
         app.login_token = ''
-        response.set_cookie(key="session_token", value='', expires=1)
         return RedirectResponse(url=f'/logged_out?format={format}', status_code=302)
 
 
