@@ -85,7 +85,7 @@ def logout_token(token: str, response: Response):
 
 
 @app.get("/logged_out", status_code=200)
-def logged_out():
+def logged_out(format: str = 'plain'):
     if format == 'plain' or format == '':
         return PlainTextResponse(content='Logged out!')
     elif format == 'json':
