@@ -4,7 +4,7 @@ from fastapi.security import HTTPBasic, HTTPBasicCredentials
 from fastapi import Cookie
 from fastapi import HTTPException
 from fastapi import Response
-from fastapi.responses import HTMLResponse, JSONResponse
+from fastapi.responses import HTMLResponse, JSONResponse, PlainTextResponse
 
 import hashlib
 
@@ -45,7 +45,7 @@ def welcome_session(session_token: str = Cookie(None), format: str = 'plain'):
         raise HTTPException(status_code=401)
     else:
         if format == 'plain' or format == '':
-            return 'Welcome!'
+            return PlainTextResponse(content='Welcome!')
         elif format == 'json':
             return JSONResponse(content={"message": "Welcome!"})
         elif format == 'html':
@@ -57,7 +57,7 @@ def welcome_token(token: str, format: str = 'plain'):
         raise HTTPException(status_code=401)
     else:
         if format == 'plain' or format == '':
-            return 'Welcome!'
+            return PlainTextResponse(content='Welcome!')
         elif format == 'json':
             return JSONResponse(content={"message": "Welcome!"})
         elif format == 'html':
